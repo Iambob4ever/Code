@@ -1,0 +1,2 @@
+class person:
+    name = "bob"
