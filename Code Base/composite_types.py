@@ -41,6 +41,7 @@ users[0] = "Andrew"
 
 ########################################################################################
 #Tuple
+#Are immutable Bascially are just const lists Use when isn't changed as they are much more efficent computationally
 date = (1973, 10, 23)
 
 #Simular to dicts, act like lists
@@ -57,3 +58,6 @@ date_tuple = (1973, 10, 23)
 
 date_tuple[0] # 1973
 len(date_tuple) # 3
+
+name_tuple = ("Bob", "Steve", "Dave")
+print(name_tuple[1])
