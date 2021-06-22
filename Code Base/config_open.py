@@ -3,27 +3,26 @@ import configparser
 import mysql.connector
 from mysql.connector import Error
 
+#This class is specifically for getting the config to connect to a mysql db
+class sql_config():
+  
+      def __init__(self,config_location):
+        config = configparser.ConfigParser()
+        config.read(config_location)
+        self.host = config['laptop_db']['host']
+        self.db_name = config['laptop_db']['db_name']
+        self.user = config['laptop_db']['user']
+        self.passwd = config['laptop_db']['pass']
 
 
-
-######################################################################
-#This section gets the values from the config. This should be a class 
-config = configparser.ConfigParser()
-config.read('test.config')
-host = config['laptop_db']['host']
-db_name = config['laptop_db']['db_name']
-user = config['laptop_db']['user']
-passwd = config['laptop_db']['pass']
-
-
-def create_connection(host_name, db_name, user_name, user_password):
+def create_connection(db_config):
     connection = None
     try:
         connection = mysql.connector.connect(
-            host=host_name,
-            db = db_name,
-            user=user_name,
-            passwd=user_password
+            host=db_config.host,
+            db = db_config.db_name,
+            user=db_config.user,
+            passwd=db_config.passwd
         )
         print("Connection to MySQL DB successful")
     except Error as e:
@@ -32,7 +31,12 @@ def create_connection(host_name, db_name, user_name, user_password):
     return connection
 
 #calls the connection function
-laptopdb_connection = create_connection(host,db_name,user,passwd)
+laptop_sql = sql_config('test.config')
+print(laptop_sql.host)
+laptopdb_connection = create_connection(laptop_sql)
+
+
+
 
 #This line is the sql command. Bacially python just jams it in as a string
 sql_q = "INSERT INTO remote_test (value, user) VALUES (%s, %s)"
